@@ -1,0 +1,2 @@
+<div *ngFor="let brick of allBricks$ | async">{{ brick.id }}</div>
+<button (click)="destroyBrick()">Change</button>
