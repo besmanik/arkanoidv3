@@ -17,11 +17,11 @@ export class BricksService {
     return this.http.get<IBrick[]>('http://localhost:3000/bricks');
   }
 
-  saveBricks(bricks: IBrick[]) {
-    console.log('Bricks in service: ', bricks);
+  saveBricks(brick: IBrick) {
+    console.log('Brick in service: ', brick);
     return this.http.put<IBrick[]>(
-      'http://localhost:3000/bricks/1',
-      bricks,
+      'http://localhost:3000/bricks/' + `${brick.id}`,
+      brick,
       httpOptions
     );
   }

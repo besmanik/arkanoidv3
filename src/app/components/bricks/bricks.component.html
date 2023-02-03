@@ -1,2 +1,4 @@
-<div *ngFor="let brick of allBricks$ | async">{{ brick.id }}</div>
-<button (click)="destroyBrick()">Change</button>
+<div *ngFor="let brick of allBricks$ | async">
+  <div>{{ brick.id }}</div>
+  <button (click)="destroyBrick(brick.id)">Change</button>
+</div>
