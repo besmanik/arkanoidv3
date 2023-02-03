@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IBrick } from '../types/bricks.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IBall } from '../types/ball.interface';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

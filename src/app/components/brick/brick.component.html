@@ -1,0 +1,5 @@
+<!-- [ngClass]="{ invincible: !brick.status }" -->
+<div class="brick">
+  <div>{{ brick.id }}/{{ brick.status }}</div>
+  <button (click)="destroyBrick(brick.id)">Change</button>
+</div>

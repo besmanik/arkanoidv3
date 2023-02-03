@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadBricks, destroyBrick } from 'src/app/store/bricks/bricks.actions';
+import { loadBricks } from 'src/app/store/bricks/bricks.actions';
 import { selectAllBricks } from 'src/app/store/bricks/bricks.selectors';
 
 @Component({
@@ -9,15 +9,11 @@ import { selectAllBricks } from 'src/app/store/bricks/bricks.selectors';
   styleUrls: ['./bricks.component.scss'],
 })
 export class BricksComponent implements OnInit {
-  public allBricks$ = this.store.select(selectAllBricks);
+  allBricks$ = this.store.select(selectAllBricks);
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(loadBricks());
-  }
-
-  destroyBrick(id: number): void {
-    this.store.dispatch(destroyBrick({ id }));
   }
 }
