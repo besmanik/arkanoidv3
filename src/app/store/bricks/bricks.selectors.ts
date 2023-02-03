@@ -8,3 +8,6 @@ export const selectAllBricks = createSelector(
   selectBricks,
   (state: BricksState) => state.bricks
 );
+
+// export const selectSingleBrick = (id: number) =>
+//   createSelector(selectBricks, (state: BricksState) => state.bricks[id - 1]);

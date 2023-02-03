@@ -15,10 +15,9 @@ export class BricksComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadBricks());
-    console.log(this.allBricks$);
   }
 
-  destroyBrick(): void {
-    this.store.dispatch(destroyBrick({ id: 2 }));
+  destroyBrick(id: number): void {
+    this.store.dispatch(destroyBrick({ id }));
   }
 }

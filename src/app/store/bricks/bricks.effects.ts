@@ -43,7 +43,7 @@ export class BricksEffects {
         ofType(destroyBrick),
         withLatestFrom(this.store.select(selectAllBricks)),
         switchMap(([action, bricks]) =>
-          from(this.bricksService.saveBricks(bricks))
+          from(this.bricksService.saveBricks(bricks[action.id]))
         )
       ),
     // Most effects dispatch another action, but this one is just a "fire and forget" effect
