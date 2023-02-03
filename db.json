@@ -2,11 +2,13 @@
   "bricks": [
     {
       "id": 0,
-      "status": true
+      "status": true,
+      "color": "blue"
     },
     {
       "id": 1,
-      "status": true
+      "status": true,
+      "color": "green"
     }
   ]
 }

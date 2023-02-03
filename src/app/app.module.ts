@@ -10,13 +10,16 @@ import { AppComponent } from './app.component';
 import { BricksComponent } from './components/bricks/bricks.component';
 import { BricksEffects } from './store/bricks/bricks.effects';
 import { bricksReducer } from './store/bricks/bricks.reducer';
+import { BrickComponent } from './components/brick/brick.component';
+import { BallComponent } from './components/ball/ball.component';
+import { ballReducer } from './store/ball/ball.reducer';
 
 @NgModule({
-  declarations: [AppComponent, BricksComponent],
+  declarations: [AppComponent, BricksComponent, BrickComponent, BallComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bricks: bricksReducer }),
+    StoreModule.forRoot({ bricks: bricksReducer, ball: ballReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
