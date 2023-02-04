@@ -1,3 +1,5 @@
-<div *ngFor="let brick of allBricks$ | async">
-  <mc-brick [brick]="brick"></mc-brick>
+<div class="bricks-container">
+  <div *ngFor="let brick of allBricks$ | async">
+    <mc-brick [brick]="brick"></mc-brick>
+  </div>
 </div>

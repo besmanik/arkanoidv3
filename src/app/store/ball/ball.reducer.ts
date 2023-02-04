@@ -9,7 +9,7 @@ export interface BallState {
 }
 
 export const initialState: BallState = {
-  ball: { x: 0, y: 0, dx: 1, dy: -1 },
+  ball: { x: 0, y: 0, dx: -1, dy: -1, isMoving: false },
   error: '',
   status: 'pending',
 };
@@ -17,7 +17,7 @@ export const initialState: BallState = {
 export const ballReducer = createReducer(
   initialState,
   on(setCoordinates, (state, { x, y }) => {
-    return { ...state, ball: { ...state.ball, x, y } };
+    return { ...state, ball: { ...state.ball, x, y, isMoving: true } };
   }),
   on(changeDirection, (state, { dx, dy }) => {
     return { ...state, ball: { ...state.ball, dx, dy } };
