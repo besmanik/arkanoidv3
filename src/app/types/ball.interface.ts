@@ -3,4 +3,5 @@ export interface IBall {
   y: number;
   dx: number;
   dy: number;
+  isMoving: boolean;
 }

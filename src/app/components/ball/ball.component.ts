@@ -6,7 +6,10 @@ import {
   HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { setCoordinates } from 'src/app/store/ball/ball.actions';
+import {
+  changeDirection,
+  setCoordinates,
+} from 'src/app/store/ball/ball.actions';
 import { selectBall } from 'src/app/store/ball/ball.selectors';
 import { IBall } from 'src/app/types/ball.interface';
 
@@ -16,7 +19,8 @@ import { IBall } from 'src/app/types/ball.interface';
   styleUrls: ['./ball.component.scss'],
 })
 export class BallComponent implements OnInit {
-  progress: number = 10;
+  progressX: number = 0;
+  progressY: number = 0;
   ball: IBall;
   constructor(
     private renderer: Renderer2,
@@ -30,11 +34,12 @@ export class BallComponent implements OnInit {
 
   ballMove(): void {
     const currentEl = this.el.nativeElement.querySelector('.ball');
-    this.progress += 10 * this.ball.dy;
+    this.progressX += 10 * this.ball.dx;
+    this.progressY += 10 * this.ball.dy;
     this.renderer.setStyle(
       currentEl,
       'transform',
-      `translateY(${this.progress}px)`
+      `translate(${this.progressX}px, ${this.progressY}px)`
     );
     const { x: ballX, y: ballY } = currentEl.getBoundingClientRect();
     this.store.dispatch(setCoordinates({ x: ballX, y: ballY }));
@@ -45,6 +50,9 @@ export class BallComponent implements OnInit {
     if (e.code == 'Enter') {
       this.ballMove();
     } else if (e.code == 'Space') {
+      this.store.dispatch(
+        changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
+      );
     }
   }
 }
