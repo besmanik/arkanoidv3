@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { BallState } from './ball.reducer';
 
-export const select = (state: AppState) => state.ball;
+export const selectB = (state: AppState) => state.ball;
 
 export const selectBall = createSelector(
-  select,
+  selectB,
   (state: BallState) => state.ball
 );
