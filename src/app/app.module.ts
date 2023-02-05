@@ -14,13 +14,24 @@ import { BrickComponent } from './components/brick/brick.component';
 import { BallComponent } from './components/ball/ball.component';
 import { ballReducer } from './store/ball/ball.reducer';
 import { PaddleComponent } from './components/paddle/paddle.component';
+import { paddleReducer } from './store/paddle/paddle.reducer';
 
 @NgModule({
-  declarations: [AppComponent, BricksComponent, BrickComponent, BallComponent, PaddleComponent],
+  declarations: [
+    AppComponent,
+    BricksComponent,
+    BrickComponent,
+    BallComponent,
+    PaddleComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bricks: bricksReducer, ball: ballReducer }),
+    StoreModule.forRoot({
+      bricks: bricksReducer,
+      ball: ballReducer,
+      paddle: paddleReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
