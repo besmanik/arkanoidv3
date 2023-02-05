@@ -4,4 +4,5 @@ export interface IBall {
   dx: number;
   dy: number;
   isMoving: boolean;
+  diameter: number;
 }
