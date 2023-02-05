@@ -4,7 +4,6 @@ import {
   Renderer2,
   ElementRef,
   HostListener,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -20,17 +19,15 @@ import { IPaddle } from 'src/app/types/paddle.interface';
   selector: 'mc-ball',
   templateUrl: './ball.component.html',
   styleUrls: ['./ball.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallComponent implements OnInit {
   progressX: number = 0;
   progressY: number = 0;
   ball: IBall;
   paddle: IPaddle;
-  paddleWidth: number = 200;
-  paddleHeight: number = 30;
   ballWidth: number = 20;
   ballHeight: number = 20;
+  paddleWidth: number = 200;
 
   constructor(
     private renderer: Renderer2,
@@ -40,9 +37,9 @@ export class BallComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectBall).subscribe((ball) => (this.ball = ball));
-    this.store.select(selectPaddle).subscribe((paddle) => {
-      this.paddle = paddle;
-    });
+    this.store
+      .select(selectPaddle)
+      .subscribe((paddle) => (this.paddle = paddle));
   }
 
   ballMove(): void {
@@ -52,15 +49,15 @@ export class BallComponent implements OnInit {
     this.renderer.setStyle(
       currentEl,
       'transform',
-      `translateY(${this.progressY}px)`
+      `translate(${this.progressX}px, ${this.progressY}px)`
     );
     const { x: ballX, y: ballY } = currentEl.getBoundingClientRect();
     this.store.dispatch(setCoordinates({ x: ballX, y: ballY }));
 
     if (
-      this.ball.x >= this.paddle.x - this.ballWidth / 2 &&
-      this.ball.x <= this.paddle.x + this.paddleWidth - this.ballWidth / 2 &&
-      this.ball.y >= this.paddle.y - this.ballHeight &&
+      ballX >= this.paddle.x - this.ballWidth / 2 &&
+      ballX <= this.paddle.x + this.paddleWidth - this.ballWidth / 2 &&
+      ballY >= this.paddle.y - this.ballHeight &&
       this.ball.isMoving
     ) {
       this.store.dispatch(
