@@ -1,4 +1,5 @@
 .bricks-container {
-    display: flex;
-    //padding-left: 100px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    padding-left: 90px;
 }

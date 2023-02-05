@@ -13,9 +13,10 @@ import { bricksReducer } from './store/bricks/bricks.reducer';
 import { BrickComponent } from './components/brick/brick.component';
 import { BallComponent } from './components/ball/ball.component';
 import { ballReducer } from './store/ball/ball.reducer';
+import { PaddleComponent } from './components/paddle/paddle.component';
 
 @NgModule({
-  declarations: [AppComponent, BricksComponent, BrickComponent, BallComponent],
+  declarations: [AppComponent, BricksComponent, BrickComponent, BallComponent, PaddleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
