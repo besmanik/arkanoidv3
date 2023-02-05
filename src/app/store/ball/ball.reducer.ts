@@ -3,6 +3,7 @@ import { IBall } from 'src/app/types/ball.interface';
 import {
   changeDirection,
   endGame,
+  incrementScore,
   setCoordinates,
   startGame,
 } from './ball.actions';
@@ -14,7 +15,7 @@ export interface BallState {
 }
 
 export const initialState: BallState = {
-  ball: { x: 0, y: 0, dx: 1, dy: 1, isMoving: false, diameter: 20 },
+  ball: { x: 0, y: 0, dx: 1, dy: 1, isMoving: false, diameter: 20, score: 0 },
   error: '',
   status: 'pending',
 };
@@ -30,10 +31,21 @@ export const ballReducer = createReducer(
   on(changeDirection, (state, { dx, dy }) => {
     return { ...state, ball: { ...state.ball, dx, dy } };
   }),
+  on(incrementScore, (state) => {
+    return { ...state, score: state.ball.score + 1 };
+  }),
   on(endGame, (state) => {
     return {
       ...state,
-      ball: { ...state.ball, x: 0, y: 0, dx: 1, dy: 1, isMoving: false },
+      ball: {
+        ...state.ball,
+        x: 0,
+        y: 0,
+        dx: 1,
+        dy: 1,
+        isMoving: false,
+        score: 0,
+      },
     };
   })
 );
