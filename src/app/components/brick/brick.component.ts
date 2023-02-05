@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { changeDirection } from 'src/app/store/ball/ball.actions';
+import {
+  changeDirection,
+  incrementScore,
+} from 'src/app/store/ball/ball.actions';
 import { selectBall } from 'src/app/store/ball/ball.selectors';
 import { destroyBrick } from 'src/app/store/bricks/bricks.actions';
 import { IBall } from 'src/app/types/ball.interface';
@@ -46,7 +49,8 @@ export class BrickComponent implements OnInit {
         this.ball.y <= brickY + this.heightBrick &&
         this.ball.isMoving
       ) {
-        this.renderer.setStyle(this.el.nativeElement, 'opacity', 0);
+        this.store.dispatch(incrementScore());
+        this.store.dispatch(destroyBrick({ id: this.brick.id }));
         this.subscription.unsubscribe();
         this.store.dispatch(
           changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
@@ -60,16 +64,13 @@ export class BrickComponent implements OnInit {
         this.ball.y <= brickY + this.ball.diameter &&
         this.ball.isMoving
       ) {
-        this.renderer.setStyle(this.el.nativeElement, 'opacity', 0);
+        this.store.dispatch(incrementScore());
+        this.store.dispatch(destroyBrick({ id: this.brick.id }));
         this.subscription.unsubscribe();
         this.store.dispatch(
           changeDirection({ dx: -this.ball.dx, dy: this.ball.dy })
         );
       }
     });
-  }
-
-  destroyBrick(id: number): void {
-    this.store.dispatch(destroyBrick({ id }));
   }
 }

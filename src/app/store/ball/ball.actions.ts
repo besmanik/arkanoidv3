@@ -10,6 +10,8 @@ export const changeDirection = createAction(
   props<{ dx: number; dy: number }>()
 );
 
+export const incrementScore = createAction('[Ball] Increment Score');
+
 export const startGame = createAction('[Ball] Start Game');
 
 export const endGame = createAction('[Ball] End Game');

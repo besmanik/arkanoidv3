@@ -5,4 +5,5 @@ export interface IBall {
   dy: number;
   isMoving: boolean;
   diameter: number;
+  score: number;
 }

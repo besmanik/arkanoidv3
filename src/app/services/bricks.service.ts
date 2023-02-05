@@ -18,8 +18,7 @@ export class BricksService {
     return this.http.get<IBrick[]>('http://localhost:3000/bricks');
   }
 
-  saveBricks(brick: IBrick) {
-    console.log('Brick in service: ', brick);
+  saveBricks(brick: IBrick): Observable<IBrick[]> {
     return this.http.put<IBrick[]>(
       'http://localhost:3000/bricks/' + `${brick.id}`,
       brick,
