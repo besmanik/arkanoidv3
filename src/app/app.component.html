@@ -1,4 +1,9 @@
 <h1>Arkanoid</h1>
-<mc-bricks></mc-bricks>
-<mc-ball></mc-ball>
-<mc-paddle></mc-paddle>
+<div
+  class="board"
+  [ngStyle]="{ width: board.Width + 'px', height: board.Height + 'px' }"
+>
+  <mc-bricks></mc-bricks>
+  <mc-ball></mc-ball>
+  <mc-paddle></mc-paddle>
+</div>

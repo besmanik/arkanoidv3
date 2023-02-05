@@ -26,8 +26,6 @@ export class BrickComponent implements OnInit {
   subscription: Subscription;
   widthBrick: number = 80;
   heightBrick: number = 30;
-  widthBall: number = 20;
-  heghtBall: number = 20;
 
   constructor(
     private store: Store,
@@ -43,8 +41,8 @@ export class BrickComponent implements OnInit {
 
       if (
         this.ball.x >= brickX &&
-        this.ball.x <= brickX + this.widthBrick - this.widthBall / 2 &&
-        this.ball.y >= brickY - this.heghtBall &&
+        this.ball.x <= brickX + this.widthBrick - this.ball.diameter / 2 &&
+        this.ball.y >= brickY - this.ball.diameter &&
         this.ball.y <= brickY + this.heightBrick &&
         this.ball.isMoving
       ) {
@@ -56,10 +54,10 @@ export class BrickComponent implements OnInit {
       }
 
       if (
-        this.ball.x >= brickX - this.widthBall &&
+        this.ball.x >= brickX - this.ball.diameter &&
         this.ball.x <= brickX + this.widthBrick &&
-        this.ball.y >= brickY - this.heghtBall / 2 &&
-        this.ball.y <= brickY + this.heghtBall &&
+        this.ball.y >= brickY - this.ball.diameter / 2 &&
+        this.ball.y <= brickY + this.ball.diameter &&
         this.ball.isMoving
       ) {
         this.renderer.setStyle(this.el.nativeElement, 'opacity', 0);

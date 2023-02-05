@@ -6,9 +6,12 @@ import {
   HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Board } from 'src/app/constants/globakVariables';
 import {
   changeDirection,
+  endGame,
   setCoordinates,
+  startGame,
 } from 'src/app/store/ball/ball.actions';
 import { selectBall } from 'src/app/store/ball/ball.selectors';
 import { selectPaddle } from 'src/app/store/paddle/paddle.selectors';
@@ -25,9 +28,8 @@ export class BallComponent implements OnInit {
   progressY: number = 0;
   ball: IBall;
   paddle: IPaddle;
-  ballWidth: number = 20;
-  ballHeight: number = 20;
   paddleWidth: number = 200;
+  paddleHeight: number = 30;
 
   constructor(
     private renderer: Renderer2,
@@ -36,6 +38,8 @@ export class BallComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(startGame());
+
     this.store.select(selectBall).subscribe((ball) => (this.ball = ball));
     this.store
       .select(selectPaddle)
@@ -44,8 +48,8 @@ export class BallComponent implements OnInit {
 
   ballMove(): void {
     const currentEl = this.el.nativeElement.querySelector('.ball');
-    this.progressX += 10 * this.ball.dx;
-    this.progressY += 10 * this.ball.dy;
+    this.progressX += 2 * this.ball.dx;
+    this.progressY += 2 * this.ball.dy;
     this.renderer.setStyle(
       currentEl,
       'transform',
@@ -53,22 +57,52 @@ export class BallComponent implements OnInit {
     );
     const { x: ballX, y: ballY } = currentEl.getBoundingClientRect();
     this.store.dispatch(setCoordinates({ x: ballX, y: ballY }));
+    // console.log('Ball: ', this.ball);
+    // console.log('Paddle: ', this.paddle);
 
-    if (
-      ballX >= this.paddle.x - this.ballWidth / 2 &&
-      ballX <= this.paddle.x + this.paddleWidth - this.ballWidth / 2 &&
-      ballY >= this.paddle.y - this.ballHeight &&
-      this.ball.isMoving
-    ) {
-      this.store.dispatch(
-        changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
-      );
+    if (ballY >= 550) {
+      console.log('Game Over');
+      this.progressX = 0;
+      this.progressY = 0;
+      this.renderer.setStyle(currentEl, 'transform', `translate(0px, 0px)`);
+      this.store.dispatch(endGame());
+    } else {
+      if (
+        ballX >= this.paddle.x - this.ball.diameter / 2 &&
+        ballX <= this.paddle.x + this.paddleWidth - this.ball.diameter / 2 &&
+        ballY >= this.paddle.y - this.ball.diameter &&
+        ballY <= this.paddle.y + this.paddleHeight &&
+        this.ball.isMoving
+      ) {
+        this.store.dispatch(
+          changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
+        );
+      }
+
+      if (ballY <= 80 && this.ball.isMoving) {
+        this.store.dispatch(
+          changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
+        );
+      } else if (
+        (ballX <= this.ball.diameter / 2 ||
+          ballX >= Board.Width - this.ball.diameter) &&
+        this.ball.isMoving
+      ) {
+        this.store.dispatch(
+          changeDirection({ dx: -this.ball.dx, dy: this.ball.dy })
+        );
+      }
+
+      requestAnimationFrame(() => this.ballMove());
     }
+
+    //
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(e: KeyboardEvent) {
     if (e.code == 'Enter') {
+      this.store.dispatch(startGame());
       this.ballMove();
     } else if (e.code == 'Space') {
       this.store.dispatch(
