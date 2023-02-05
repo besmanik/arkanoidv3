@@ -39,7 +39,7 @@ export class BallComponent implements OnInit {
     this.renderer.setStyle(
       currentEl,
       'transform',
-      `translate(${this.progressX}px, ${this.progressY}px)`
+      `translateX(${this.progressX}px)`
     );
     const { x: ballX, y: ballY } = currentEl.getBoundingClientRect();
     this.store.dispatch(setCoordinates({ x: ballX, y: ballY }));
@@ -51,7 +51,7 @@ export class BallComponent implements OnInit {
       this.ballMove();
     } else if (e.code == 'Space') {
       this.store.dispatch(
-        changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
+        changeDirection({ dx: -this.ball.dx, dy: -this.ball.dy })
       );
     }
   }
