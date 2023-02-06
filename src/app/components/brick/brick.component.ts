@@ -5,6 +5,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   Renderer2,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -21,7 +22,6 @@ import { IBrick } from 'src/app/types/bricks.interface';
   selector: 'mc-brick',
   templateUrl: './brick.component.html',
   styleUrls: ['./brick.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrickComponent implements OnInit {
   @Input() brick: IBrick;
@@ -32,8 +32,8 @@ export class BrickComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +47,10 @@ export class BrickComponent implements OnInit {
         this.ball.x <= brickX + this.widthBrick - this.ball.diameter / 2 &&
         this.ball.y >= brickY - this.ball.diameter &&
         this.ball.y <= brickY + this.heightBrick &&
-        this.ball.isMoving
+        this.ball.isMoving &&
+        this.brick.status
       ) {
-        this.store.dispatch(incrementScore());
-        this.store.dispatch(destroyBrick({ id: this.brick.id }));
-        this.subscription.unsubscribe();
+        this.destroyBrick();
         this.store.dispatch(
           changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
         );
@@ -62,15 +61,20 @@ export class BrickComponent implements OnInit {
         this.ball.x <= brickX + this.widthBrick &&
         this.ball.y >= brickY - this.ball.diameter / 2 &&
         this.ball.y <= brickY + this.ball.diameter &&
-        this.ball.isMoving
+        this.ball.isMoving &&
+        this.brick.status
       ) {
-        this.store.dispatch(incrementScore());
-        this.store.dispatch(destroyBrick({ id: this.brick.id }));
-        this.subscription.unsubscribe();
+        this.destroyBrick();
         this.store.dispatch(
           changeDirection({ dx: -this.ball.dx, dy: this.ball.dy })
         );
       }
     });
+  }
+
+  destroyBrick() {
+    this.store.dispatch(incrementScore());
+    this.store.dispatch(destroyBrick({ id: this.brick.id }));
+    this.subscription.unsubscribe();
   }
 }

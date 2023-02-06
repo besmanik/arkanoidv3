@@ -7,12 +7,12 @@ export interface PaddleState {
 }
 
 export const initialState: PaddleState = {
-  paddle: { x: 0, y: 0 },
+  paddle: { x: 0, y: 0, Width: 200, Height: 30 },
 };
 
 export const paddleReducer = createReducer(
   initialState,
   on(setPaddleCoordinates, (state, { x, y }) => {
-    return { ...state, paddle: { x, y } };
+    return { ...state, paddle: { ...state.paddle, x, y } };
   })
 );
