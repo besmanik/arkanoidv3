@@ -2,63 +2,51 @@
   "bricks": [
     {
       "id": 0,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 1,
-      "status": true,
-      "color": "green"
+      "status": true
     },
     {
       "id": 2,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 3,
-      "status": true,
-      "color": "green"
+      "status": true
     },
     {
       "id": 4,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 5,
-      "status": true,
-      "color": "green"
+      "status": false
     },
     {
       "id": 6,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 7,
-      "status": true,
-      "color": "green"
+      "status": false
     },
     {
       "id": 8,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 9,
-      "status": true,
-      "color": "green"
+      "status": true
     },
     {
       "id": 10,
-      "status": true,
-      "color": "blue"
+      "status": true
     },
     {
       "id": 11,
-      "status": true,
-      "color": "green"
+      "status": true
     }
   ]
 }

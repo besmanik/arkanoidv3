@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Board } from './constants/globakVariables';
+import { Board } from './constants/Board';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,5 @@ import { Board } from './constants/globakVariables';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  board = Board;
-  title = 'arkanoid-3';
+  Board = Board;
 }

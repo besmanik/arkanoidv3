@@ -4,9 +4,11 @@ import {
   Renderer2,
   ElementRef,
   HostListener,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Board } from 'src/app/constants/globakVariables';
+import { Board } from 'src/app/constants/Board';
 import {
   changeDirection,
   endGame,
@@ -23,20 +25,20 @@ import { IPaddle } from 'src/app/types/paddle.interface';
   selector: 'mc-ball',
   templateUrl: './ball.component.html',
   styleUrls: ['./ball.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallComponent implements OnInit {
   progressX: number = 0;
   progressY: number = 0;
   ball: IBall;
   paddle: IPaddle;
-  paddleWidth: number = 200;
-  paddleHeight: number = 30;
   bricksLength: number;
 
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private store: Store
+    private store: Store,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,20 +72,18 @@ export class BallComponent implements OnInit {
     // console.log('Ball: ', this.ball);
     // console.log('Paddle: ', this.paddle);
 
-    console.log('BallScore: ', this.ball.score);
-    console.log('BricksLength: ', this.bricksLength);
-    if (ballY >= 550 || this.ball.score == this.bricksLength) {
+    if (
+      ballY >= Board.HEIGHT + Board.OFFSET - this.ball.diameter ||
+      this.ball.score == this.bricksLength
+    ) {
       console.log('Game Over');
-      this.progressX = 0;
-      this.progressY = 0;
-      this.renderer.setStyle(currentEl, 'transform', `translate(0px, 0px)`);
-      this.store.dispatch(endGame());
+      this.resetBall(currentEl);
     } else {
       if (
         ballX >= this.paddle.x - this.ball.diameter / 2 &&
-        ballX <= this.paddle.x + this.paddleWidth - this.ball.diameter / 2 &&
+        ballX <= this.paddle.x + this.paddle.Width - this.ball.diameter / 2 &&
         ballY >= this.paddle.y - this.ball.diameter &&
-        ballY <= this.paddle.y + this.paddleHeight &&
+        ballY <= this.paddle.y + this.paddle.Height &&
         this.ball.isMoving
       ) {
         this.store.dispatch(
@@ -91,13 +91,13 @@ export class BallComponent implements OnInit {
         );
       }
 
-      if (ballY <= 80 && this.ball.isMoving) {
+      if (ballY <= Board.OFFSET && this.ball.isMoving) {
         this.store.dispatch(
           changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
         );
       } else if (
         (ballX <= this.ball.diameter / 2 ||
-          ballX >= Board.Width - this.ball.diameter) &&
+          ballX >= Board.WIDTH - this.ball.diameter) &&
         this.ball.isMoving
       ) {
         this.store.dispatch(
@@ -105,10 +105,9 @@ export class BallComponent implements OnInit {
         );
       }
 
+      this.cd.detectChanges();
       requestAnimationFrame(() => this.ballMove());
     }
-
-    //
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -121,5 +120,12 @@ export class BallComponent implements OnInit {
         changeDirection({ dx: this.ball.dx, dy: -this.ball.dy })
       );
     }
+  }
+
+  resetBall(currentEl: HTMLElement) {
+    this.progressX = 0;
+    this.progressY = 0;
+    this.renderer.setStyle(currentEl, 'transform', `translate(0px, 0px)`);
+    this.store.dispatch(endGame());
   }
 }
