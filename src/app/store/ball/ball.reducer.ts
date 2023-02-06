@@ -10,14 +10,10 @@ import {
 
 export interface BallState {
   ball: IBall;
-  error: string;
-  status: 'pending' | 'loading' | 'error' | 'success';
 }
 
 export const initialState: BallState = {
-  ball: { x: 0, y: 0, dx: 1, dy: 1, isMoving: false, diameter: 20, score: 0 },
-  error: '',
-  status: 'pending',
+  ball: { x: 0, y: 0, dx: 1, dy: 1, isMoving: false, diameter: 15, score: 0 },
 };
 
 export const ballReducer = createReducer(
