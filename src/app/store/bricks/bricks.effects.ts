@@ -21,16 +21,13 @@ export class BricksEffects {
     private bricksService: BricksService
   ) {}
 
-  // Run this code when a loadTodos action is dispatched
   loadBricks$ = createEffect(() =>
     this.actions$.pipe(
+      //выбираем action
       ofType(loadBricks),
       switchMap(() =>
-        // Call the getTodos method, convert it to an observable
         from(this.bricksService.getBricks()).pipe(
-          // Take the returned value and return a new success action containing the todos
           map((bricks) => loadBricksSuccess({ bricks: bricks })),
-          // Or... if it errors return a new failure action containing the error
           catchError((error) => of(loadBricksFailure({ error })))
         )
       )
@@ -41,12 +38,12 @@ export class BricksEffects {
     () =>
       this.actions$.pipe(
         ofType(destroyBrick),
+        //берем новейшую значение
         withLatestFrom(this.store.select(selectAllBricks)),
         switchMap(([action, bricks]) =>
           from(this.bricksService.saveBricks(bricks[action.id]))
         )
       ),
-    // Most effects dispatch another action, but this one is just a "fire and forget" effect
     { dispatch: false }
   );
 }
